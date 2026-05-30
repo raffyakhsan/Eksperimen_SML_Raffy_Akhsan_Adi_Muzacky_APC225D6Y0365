@@ -1,6 +1,0 @@
-Tautan Repository GitHub - Kriteria 3: Workflow CI
-Link: https://github.com/raffyakhsan/Eksperimen_SML_Raffy_Akhsan_Adi_Muzacky_APC225D6Y0365
-
-Catatan:
-- Visibilitas repository sudah diatur ke PUBLIC.
-- GitHub Actions CI Pipeline sudah berhasil dijalankan (Status: Success / Centang Hijau).
