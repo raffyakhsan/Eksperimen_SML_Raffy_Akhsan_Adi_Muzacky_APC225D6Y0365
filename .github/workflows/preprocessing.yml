@@ -1,0 +1,112 @@
+name: Automated Data Preprocessing Pipeline
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'titanic_raw.csv'
+      - 'automate_Nama-siswa.py'
+      - '.github/workflows/preprocessing.yml'
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      input_file:
+        description: 'Input dataset path'
+        required: false
+        default: 'titanic_raw.csv'
+      output_file:
+        description: 'Output dataset path'
+        required: false
+        default: 'titanic_preprocessing.csv'
+  schedule:
+    # Jalankan setiap hari Senin pukul 00:00 UTC
+    - cron: '0 0 * * 1'
+
+jobs:
+  preprocessing:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python 3.12.7
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.7'
+          cache: 'pip'
+
+      - name: Check Environment
+        run: |
+          python --version
+          pip --version
+          echo "Working directory: $(pwd)"
+          ls -la
+
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pandas numpy scikit-learn
+
+      - name: Download Raw Dataset
+        run: |
+          python -c "
+          import pandas as pd
+          url = 'https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv'
+          df = pd.read_csv(url)
+          df.to_csv('titanic_raw.csv', index=False)
+          print(f'Dataset downloaded: {df.shape}')
+          "
+
+      - name: Run Preprocessing Pipeline
+        run: |
+          INPUT="${{ github.event.inputs.input_file || 'titanic_raw.csv' }}"
+          OUTPUT="${{ github.event.inputs.output_file || 'titanic_preprocessing.csv' }}"
+          python automate_Nama-siswa.py --input "$INPUT" --output "$OUTPUT"
+
+      - name: Validate Output
+        run: |
+          python -c "
+          import pandas as pd
+          df = pd.read_csv('titanic_preprocessing.csv')
+          assert df.isnull().sum().sum() == 0, 'Ada missing values!'
+          assert df.duplicated().sum() == 0, 'Ada duplikat!'
+          print(f'Validasi berhasil! Shape: {df.shape}')
+          print(f'Kolom: {df.columns.tolist()}')
+          print(df.head())
+          "
+
+      - name: Commit and Push Preprocessed Dataset
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add titanic_raw.csv titanic_preprocessing.csv
+          git diff --staged --quiet || git commit -m "chore: update preprocessed dataset [skip ci] - $(date +'%Y-%m-%d %H:%M:%S')"
+          git push origin HEAD:main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Preprocessed Dataset as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: titanic-preprocessed
+          path: |
+            titanic_raw.csv
+            titanic_preprocessing.csv
+          retention-days: 30
+
+      - name: Preprocessing Summary
+        run: |
+          python -c "
+          import pandas as pd
+          raw = pd.read_csv('titanic_raw.csv')
+          processed = pd.read_csv('titanic_preprocessing.csv')
+          print('=== PREPROCESSING SUMMARY ===')
+          print(f'Raw dataset shape: {raw.shape}')
+          print(f'Processed dataset shape: {processed.shape}')
+          print(f'Fitur akhir: {processed.columns.tolist()}')
+          print('Preprocessing pipeline berhasil dijalankan!')
+          "
