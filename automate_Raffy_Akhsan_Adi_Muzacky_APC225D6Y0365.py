@@ -1,11 +1,11 @@
 """
-automate_Nama-siswa.py
+automate_Raffy_Akhsan_Adi_Muzacky_APC225D6Y0365.py
 =======================
 Script otomatisasi preprocessing untuk dataset Titanic.
 Konversi dari notebook eksperimen ke pipeline preprocessing otomatis.
 
 Penggunaan:
-    python automate_Nama-siswa.py [--input titanic_raw.csv] [--output titanic_preprocessing.csv]
+    python automate_Raffy_Akhsan_Adi_Muzacky_APC225D6Y0365.py [--input titanic_raw.csv] [--output titanic_preprocessing.csv]
 
 Output:
     - titanic_preprocessing.csv (dataset siap training)
@@ -319,9 +319,9 @@ def parse_args():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Contoh penggunaan:
-  python automate_Nama-siswa.py
-  python automate_Nama-siswa.py --input data/titanic_raw.csv --output data/titanic_preprocessing.csv
-  python automate_Nama-siswa.py --input https://raw.githubusercontent.com/.../titanic.csv
+  python automate_Raffy_Akhsan_Adi_Muzacky_APC225D6Y0365.py
+  python automate_Raffy_Akhsan_Adi_Muzacky_APC225D6Y0365.py --input data/titanic_raw.csv --output data/titanic_preprocessing.csv
+  python automate_Raffy_Akhsan_Adi_Muzacky_APC225D6Y0365.py --input https://raw.githubusercontent.com/.../titanic.csv
         """
     )
     parser.add_argument(
