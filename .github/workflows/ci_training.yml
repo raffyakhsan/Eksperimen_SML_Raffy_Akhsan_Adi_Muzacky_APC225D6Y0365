@@ -31,11 +31,11 @@ jobs:
       - name: Set up job
         run: echo "Starting ML Training CI Pipeline"
 
-      - name: Run actions/checkout@v3
-        uses: actions/checkout@v3
+      - name: Run actions/checkout@v4
+        uses: actions/checkout@v4
 
       - name: Set up Python 3.12.7
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: 'pip'
@@ -104,7 +104,7 @@ jobs:
           fi
 
       - name: Upload to GitHub (artifacts)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mlflow-run-artifacts
           path: |
