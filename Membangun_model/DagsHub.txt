@@ -1,0 +1,12 @@
+Tautan Repository DagsHub:
+https://dagshub.com/raffyakhsan/SML-Titanic
+
+Cara Penggunaan:
+1. Daftar atau login ke https://dagshub.com
+2. Buat repository baru dengan nama: SML-Titanic (atau sesuaikan dengan nama repository Anda).
+3. Script modelling_tuning.py sudah terintegrasi secara otomatis dengan DagsHub menggunakan argumen CLI. Anda tidak perlu mengubah kode Python secara manual.
+4. Buka terminal dan jalankan perintah berikut untuk memulai training dan mengirim log/artifact ke DagsHub:
+   
+   python modelling_tuning.py --dataset titanic_preprocessing.csv --use-dagshub --dagshub-user raffyakhsan --dagshub-repo SML-Titanic
+
+Catatan: Ganti parameter raffyakhsan dan SML-Titanic pada perintah terminal di atas dengan username dan nama repository DagsHub Anda jika ingin menggunakan workspace yang berbeda.
