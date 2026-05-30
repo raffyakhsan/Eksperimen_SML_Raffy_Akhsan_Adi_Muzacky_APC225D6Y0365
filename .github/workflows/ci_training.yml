@@ -90,7 +90,7 @@ jobs:
             -P max_depth=${{ github.event.inputs.max_depth || '5' }} \
             -P dataset_path=titanic_preprocessing.csv \
             --env-manager=local \
-            --experiment-name "Titanic Survival Prediction CI"
+            --experiment-name "Titanic Survival Prediction"
 
       - name: Get latest MLflow run_id
         run: |
